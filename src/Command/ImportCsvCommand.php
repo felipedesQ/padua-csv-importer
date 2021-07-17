@@ -3,6 +3,7 @@
 namespace Padua\CsvImporter\Command;
 
 use Padua\CsvImporter\Dto\BankTransactionDto;
+use Padua\CsvImporter\Outputter\BankTransactionsOutputter;
 use Padua\CsvImporter\Service\TransactionCodeCheckerService;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
@@ -20,6 +21,11 @@ class ImportCsvCommand extends Command
     private $uploadLocation;
 
     /**
+     * @var BankTransactionsOutputter
+     */
+    private $bankTransactionsOutputter;
+
+    /**
      * @var Environment
      */
     private $twig;
@@ -32,12 +38,14 @@ class ImportCsvCommand extends Command
     public function __construct(
         string $uploadLocation,
         TransactionCodeCheckerService $transactionCodeCheckerService,
+        BankTransactionsOutputter $bankTransactionsOutputter,
         Environment $twig
     )
     {
         parent::__construct();
 
         $this->uploadLocation = $uploadLocation;
+        $this->bankTransactionsOutputter = $bankTransactionsOutputter;
         $this->transactionCodeCheckerService = $transactionCodeCheckerService;
         $this->twig = $twig;
     }
@@ -47,8 +55,7 @@ class ImportCsvCommand extends Command
         $this
             ->setName('padua:csv:import')
             ->setDescription('Parse the CSV columns and rows into an object, sort the objects, ensure the Transaction Code is valid')
-            ->addArgument(self::FILE_NAME, InputArgument::REQUIRED, 'Location of CSV file to import from')
-        ;
+            ->addArgument(self::FILE_NAME, InputArgument::REQUIRED, 'Location of CSV file to import from');
     }
 
     /**
@@ -77,17 +84,17 @@ class ImportCsvCommand extends Command
 
             $isValidTransaction = $this->transactionCodeCheckerService->verifyTransactionCode($bankTransactionDto->getTransactionCode());
 
-            if($isValidTransaction)
-            {
+            if ($isValidTransaction) {
                 $bankTransactionDtos[] = $bankTransactionDto;
             }
         }
 
-        $html = $this->twig->render('pages/bank-transactions.html.twig', [
-            'someVariable' => 123
+        $transactionDetails = $this->bankTransactionsOutputter->arrayForTwig($bankTransactionDtos);
+        $htmlOutput = $this->twig->render('pages/bank-transactions.html.twig', [
+            'transactionDetails' => $transactionDetails
         ]);
 
-        $output->writeln($html);
+        $output->writeln($htmlOutput);
 
         return 0;
     }

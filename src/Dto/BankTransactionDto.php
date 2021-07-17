@@ -2,6 +2,11 @@
 
 namespace Padua\CsvImporter\Dto;
 
+use Padua\CsvImporter\ValueObject\DateTimeValueObject;
+use Padua\CsvImporter\ValueObject\IntegerValueObject;
+use Padua\CsvImporter\ValueObject\MoneyValueObject;
+use Padua\CsvImporter\ValueObject\StringValueObject;
+
 class BankTransactionDto
 {
     const DATE_KEY = 0;
@@ -39,11 +44,11 @@ class BankTransactionDto
     {
         $transactionDto = new self();
 
-        $transactionDto->date = $transactionData[self::DATE_KEY];
-        $transactionDto->transactionCode = $transactionData[self::TRANSACTION_CODE_KEY];
-        $transactionDto->customerNumber = $transactionData[self::CUSTOMER_NUMBER_KEY];
-        $transactionDto->reference = $transactionData[self::REFERENCE_KEY];
-        $transactionDto->amount = $transactionData[self::AMOUNT_KEY];
+        $transactionDto->date = DateTimeValueObject::fromString($transactionData[self::DATE_KEY])->toDateTime();
+        $transactionDto->transactionCode = StringValueObject::fromString($transactionData[self::TRANSACTION_CODE_KEY])->toString();
+        $transactionDto->customerNumber = IntegerValueObject::fromInteger($transactionData[self::CUSTOMER_NUMBER_KEY])->toInteger();
+        $transactionDto->reference = StringValueObject::fromString($transactionData[self::REFERENCE_KEY])->toString();
+        $transactionDto->amount = MoneyValueObject::fromFloat($transactionData[self::AMOUNT_KEY])->toFloat();
 
         return $transactionDto;
     }
