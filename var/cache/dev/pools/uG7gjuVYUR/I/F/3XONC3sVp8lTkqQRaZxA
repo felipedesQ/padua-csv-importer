@@ -1,0 +1,3 @@
+<?php //Padua%255CCsvImporter%255CKernel%2523getLogDir
+
+return [PHP_INT_MAX, []];
