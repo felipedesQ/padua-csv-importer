@@ -72,7 +72,7 @@
     <parameter key="container.autowiring.strict_mode">true</parameter>
     <parameter key="container.dumper.inline_class_loader">true</parameter>
     <parameter key="locale">en</parameter>
-    <parameter key="csv_import_path">/padua-csv_importer/var/tmp/</parameter>
+    <parameter key="csv_import_path">../padua-csv-importer/var/upload/</parameter>
     <parameter key="event_dispatcher.event_aliases" type="collection">
       <parameter key="Symfony\Component\Console\Event\ConsoleCommandEvent">console.command</parameter>
       <parameter key="Symfony\Component\Console\Event\ConsoleErrorEvent">console.error</parameter>
@@ -338,7 +338,17 @@
     <service id="Padua\CsvImporter\Command\ImportCsvCommand" class="Padua\CsvImporter\Command\ImportCsvCommand" autowire="true" autoconfigure="true">
       <tag name="console.command"/>
       <tag name="container.no_preload"/>
-      <argument>/padua-csv_importer/var/tmp/</argument>
+      <argument>../padua-csv-importer/var/upload/</argument>
+      <argument type="service" id="Padua\CsvImporter\Service\TransactionCodeCheckerService"/>
+      <argument type="service" id="twig"/>
+    </service>
+    <service id="Padua\CsvImporter\Dto\BankTransactionDto" class="Padua\CsvImporter\Dto\BankTransactionDto" autowire="true" autoconfigure="true"/>
+    <service id="Padua\CsvImporter\Entity\BankTransactionEntity" class="Padua\CsvImporter\Entity\BankTransactionEntity" autowire="true" autoconfigure="true"/>
+    <service id="Padua\CsvImporter\Outputter\BankTransactionsOutputter" class="Padua\CsvImporter\Outputter\BankTransactionsOutputter" autowire="true" autoconfigure="true"/>
+    <service id="Padua\CsvImporter\Service\CheckCharacterService" class="Padua\CsvImporter\Service\CheckCharacterService" autowire="true" autoconfigure="true"/>
+    <service id="Padua\CsvImporter\Service\TransactionCodeCheckerService" class="Padua\CsvImporter\Service\TransactionCodeCheckerService" autowire="true" autoconfigure="true">
+      <argument type="service" id="Padua\CsvImporter\Entity\BankTransactionEntity"/>
+      <argument type="service" id="Padua\CsvImporter\Service\CheckCharacterService"/>
     </service>
     <service id="argument_metadata_factory" class="Symfony\Component\HttpKernel\ControllerMetadata\ArgumentMetadataFactory"/>
     <service id="response_listener" class="Symfony\Component\HttpKernel\EventListener\ResponseListener">
