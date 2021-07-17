@@ -1,4 +1,8 @@
 
+/public/bundles/
+/var/
+/vendor/
+
 ###> symfony/phpunit-bridge ###
 .phpunit.result.cache
 /phpunit.xml
@@ -12,3 +16,7 @@
 ###> symfony/web-server-bundle ###
 /.web-server-pid
 ###< symfony/web-server-bundle ###
+
+.idea
+.idea/*
+.DS_Store
