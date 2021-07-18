@@ -9,7 +9,7 @@ class DateTimeValueObject
     /**
      * @throws ValidationException
      */
-    public static function fromString($value) :self
+    public static function fromString($value): self
     {
         if (!is_string($value)) {
             throw new ValidationException('Expected string value');

@@ -11,6 +11,10 @@ class CheckCharacterService
     {
     }
 
+    /**
+     * @param string $checkCodeDigit
+     * @return string
+     */
     public function generateCheckCharacter(string $checkCodeDigit): string
     {
 

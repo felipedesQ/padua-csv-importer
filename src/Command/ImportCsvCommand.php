@@ -3,13 +3,13 @@
 namespace Padua\CsvImporter\Command;
 
 use Padua\CsvImporter\Dto\BankTransactionDto;
+use Padua\CsvImporter\Exception\Exception;
 use Padua\CsvImporter\Outputter\BankTransactionsOutputter;
 use Padua\CsvImporter\Service\TransactionCodeCheckerService;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use Twig\Environment;
 
 class ImportCsvCommand extends Command
 {
@@ -25,10 +25,6 @@ class ImportCsvCommand extends Command
      */
     private $bankTransactionsOutputter;
 
-    /**
-     * @var Environment
-     */
-    private $twig;
 
     /**
      * @var TransactionCodeCheckerService
@@ -38,8 +34,7 @@ class ImportCsvCommand extends Command
     public function __construct(
         string $uploadLocation,
         TransactionCodeCheckerService $transactionCodeCheckerService,
-        BankTransactionsOutputter $bankTransactionsOutputter,
-        Environment $twig
+        BankTransactionsOutputter $bankTransactionsOutputter
     )
     {
         parent::__construct();
@@ -47,7 +42,6 @@ class ImportCsvCommand extends Command
         $this->uploadLocation = $uploadLocation;
         $this->bankTransactionsOutputter = $bankTransactionsOutputter;
         $this->transactionCodeCheckerService = $transactionCodeCheckerService;
-        $this->twig = $twig;
     }
 
     protected function configure()
@@ -59,40 +53,46 @@ class ImportCsvCommand extends Command
     }
 
     /**
-     * @throws \Exception
+     * @throws Exception
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $filePath = $this->uploadLocation . $input->getArgument(self::FILE_NAME);
 
+        //check if file exists
         if (!file_exists($filePath)) {
-            throw new \Exception('Missing file or unable to open ' . $filePath);
+            throw new Exception('Missing file or unable to open ' . $filePath);
         }
 
         $counter = 0;
         $bankTransactionDtos = [];
 
+        //using PHP function fgetcsv and parse the CSV file
         $handle = fopen($filePath, 'r');
         while ($csvRow = fgetcsv($handle)) {
+
+            //skip the first line of the CSV as this is usually headers
             $counter++;
             if ($counter === 1) {
                 $output->writeln('Skipping header line');
                 continue;
             }
 
+            //map the CSV row to the bank transaction dto
             $bankTransactionDto = BankTransactionDto::decodeData($csvRow);
 
+            //see if transaction code is valid
             $isValidTransaction = $this->transactionCodeCheckerService->verifyTransactionCode($bankTransactionDto->getTransactionCode());
-
             if ($isValidTransaction) {
                 $bankTransactionDtos[] = $bankTransactionDto;
             }
         }
 
-        $transactionDetails = $this->bankTransactionsOutputter->arrayForTwig($bankTransactionDtos);
-        $htmlOutput = $this->twig->render('pages/bank-transactions.html.twig', [
-            'transactionDetails' => $transactionDetails
-        ]);
+        //generate the display table for the valid transactions
+        $transactionDetails = $this->bankTransactionsOutputter->toArray($bankTransactionDtos);
+
+        //generate html output
+        $htmlOutput = $this->bankTransactionsOutputter->toHTML($transactionDetails);
 
         $output->writeln($htmlOutput);
 

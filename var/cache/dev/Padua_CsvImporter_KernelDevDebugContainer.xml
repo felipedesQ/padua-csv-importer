@@ -341,13 +341,14 @@
       <argument>../padua-csv-importer/var/upload/</argument>
       <argument type="service" id="Padua\CsvImporter\Service\TransactionCodeCheckerService"/>
       <argument type="service" id="Padua\CsvImporter\Outputter\BankTransactionsOutputter"/>
-      <argument type="service" id="twig"/>
     </service>
     <service id="Padua\CsvImporter\Dto\BankTransactionDto" class="Padua\CsvImporter\Dto\BankTransactionDto" autowire="true" autoconfigure="true"/>
     <service id="Padua\CsvImporter\Entity\BankTransactionEntity" class="Padua\CsvImporter\Entity\BankTransactionEntity" autowire="true" autoconfigure="true"/>
     <service id="Padua\CsvImporter\Exception\Exception" class="Padua\CsvImporter\Exception\Exception" autowire="true" autoconfigure="true"/>
     <service id="Padua\CsvImporter\Exception\ValidationException" class="Padua\CsvImporter\Exception\ValidationException" autowire="true" autoconfigure="true"/>
-    <service id="Padua\CsvImporter\Outputter\BankTransactionsOutputter" class="Padua\CsvImporter\Outputter\BankTransactionsOutputter" autowire="true" autoconfigure="true"/>
+    <service id="Padua\CsvImporter\Outputter\BankTransactionsOutputter" class="Padua\CsvImporter\Outputter\BankTransactionsOutputter" autowire="true" autoconfigure="true">
+      <argument type="service" id="twig"/>
+    </service>
     <service id="Padua\CsvImporter\Service\CheckCharacterService" class="Padua\CsvImporter\Service\CheckCharacterService" autowire="true" autoconfigure="true"/>
     <service id="Padua\CsvImporter\Service\TransactionCodeCheckerService" class="Padua\CsvImporter\Service\TransactionCodeCheckerService" autowire="true" autoconfigure="true">
       <argument type="service" id="Padua\CsvImporter\Entity\BankTransactionEntity"/>
