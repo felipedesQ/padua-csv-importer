@@ -147,6 +147,8 @@
       <excludeFolder url="file://$MODULE_DIR$/var/cache/test" />
       <excludeFolder url="file://$MODULE_DIR$/var/log" />
       <excludeFolder url="file://$MODULE_DIR$/var/upload" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/symfony/runtime" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/sensio/framework-extra-bundle" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
