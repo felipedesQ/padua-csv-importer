@@ -5,7 +5,7 @@ namespace Padua\CsvImporter\Command;
 use Padua\CsvImporter\Dto\BankTransactionDto;
 use Padua\CsvImporter\Exception\Exception;
 use Padua\CsvImporter\Outputter\BankTransactionsOutputter;
-use Padua\CsvImporter\Service\TransactionCodeCheckerService;
+use Padua\CsvImporter\Service\CsvParser;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -25,15 +25,14 @@ class ImportCsvCommand extends Command
      */
     private $bankTransactionsOutputter;
 
-
     /**
-     * @var TransactionCodeCheckerService
+     * @var CsvParser
      */
-    private $transactionCodeCheckerService;
+    private $csvParser;
 
     public function __construct(
         string $uploadLocation,
-        TransactionCodeCheckerService $transactionCodeCheckerService,
+        CsvParser $csvParser,
         BankTransactionsOutputter $bankTransactionsOutputter
     )
     {
@@ -41,7 +40,7 @@ class ImportCsvCommand extends Command
 
         $this->uploadLocation = $uploadLocation;
         $this->bankTransactionsOutputter = $bankTransactionsOutputter;
-        $this->transactionCodeCheckerService = $transactionCodeCheckerService;
+        $this->csvParser = $csvParser;
     }
 
     protected function configure()
@@ -64,31 +63,8 @@ class ImportCsvCommand extends Command
             throw new Exception('Missing file or unable to open ' . $filePath);
         }
 
-        $counter = 0;
         $bankTransactionDtos = [];
-
-        //using PHP function fgetcsv and parse the CSV file
-        $handle = fopen($filePath, 'r');
-        while ($csvRow = fgetcsv($handle)) {
-
-            //skip the first line of the CSV as this is usually headers
-            $counter++;
-            if ($counter === 1) {
-                continue;
-            }
-
-            //map the CSV row to the bank transaction dto
-            $bankTransactionDto = BankTransactionDto::decodeData($csvRow);
-
-            //see if transaction code is valid
-            $isValidTransaction = $this->transactionCodeCheckerService->verifyTransactionCode($bankTransactionDto->getTransactionCode());
-            if ($isValidTransaction) {
-                $bankTransactionDto->setValidTransation('Yes');
-            } else {
-                $bankTransactionDto->setValidTransation('No');
-            }
-            $bankTransactionDtos[] = $bankTransactionDto;
-        }
+        $bankTransactionDtos = $this->csvParser->parseCsv($filePath);
 
         //generate the display table for the valid transactions
         $transactionDetails = $this->bankTransactionsOutputter->toArray($bankTransactionDtos);

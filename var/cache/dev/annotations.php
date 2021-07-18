@@ -492,6 +492,10 @@ return [[
 '[C]Doctrine%5CORM%5CPersisters%5CEntity%5CSingleTablePersister%23getSelectConditionDiscriminatorValueSQL' => 1,
 'Doctrine%5CORM%5CPersisters%5CEntity%5CSingleTablePersister%23generateFilterConditionSQL' => 0,
 '[C]Doctrine%5CORM%5CPersisters%5CEntity%5CSingleTablePersister%23generateFilterConditionSQL' => 1,
+'Padua%5CCsvImporter%5CController%5CLuckyController' => 0,
+'[C]Padua%5CCsvImporter%5CController%5CLuckyController' => 1,
+'Padua%5CCsvImporter%5CController%5CLuckyController%23number' => 0,
+'[C]Padua%5CCsvImporter%5CController%5CLuckyController%23number' => 1,
 'Padua%5CCsvImporter%5CEntity%5CBankTransactionEntity' => 0,
 '[C]Padua%5CCsvImporter%5CEntity%5CBankTransactionEntity' => 1,
 'Padua%5CCsvImporter%5CEntity%5CBankTransactionEntity%23generateCheckCode' => 0,
@@ -606,6 +610,6 @@ return [[
 ], [
 
 0 => [],
-1 => 1626588685,
+1 => 1626606066,
 
 ]];
