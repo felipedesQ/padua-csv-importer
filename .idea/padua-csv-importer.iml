@@ -141,6 +141,11 @@
       <excludeFolder url="file://$MODULE_DIR$/vendor/phpunit/php-text-template" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/phpspec/phpspec" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/phpspec/php-diff" />
+      <excludeFolder url="file://$MODULE_DIR$/var/cache/dev/twig/97" />
+      <excludeFolder url="file://$MODULE_DIR$/var/cache/dev/ContainerXGX2N2U" />
+      <excludeFolder url="file://$MODULE_DIR$/var/cache/dev/ContainerZmdKV65" />
+      <excludeFolder url="file://$MODULE_DIR$/var/cache/test" />
+      <excludeFolder url="file://$MODULE_DIR$/var/log" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />

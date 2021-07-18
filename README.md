@@ -1,7 +1,7 @@
 # padua-csv-importer
 CSV Object Importer
 
-Clone the repository in your local machine.
+Clone the repository in to your local machine.
 
 ###### git clone https://github.com/felipedesQ/padua-csv-importer.git
 
