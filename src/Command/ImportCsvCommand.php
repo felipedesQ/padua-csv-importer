@@ -74,7 +74,6 @@ class ImportCsvCommand extends Command
             //skip the first line of the CSV as this is usually headers
             $counter++;
             if ($counter === 1) {
-                $output->writeln('Skipping header line');
                 continue;
             }
 
@@ -84,8 +83,11 @@ class ImportCsvCommand extends Command
             //see if transaction code is valid
             $isValidTransaction = $this->transactionCodeCheckerService->verifyTransactionCode($bankTransactionDto->getTransactionCode());
             if ($isValidTransaction) {
-                $bankTransactionDtos[] = $bankTransactionDto;
+                $bankTransactionDto->setValidTransation('Yes');
+            } else {
+                $bankTransactionDto->setValidTransation('No');
             }
+            $bankTransactionDtos[] = $bankTransactionDto;
         }
 
         //generate the display table for the valid transactions
@@ -94,7 +96,16 @@ class ImportCsvCommand extends Command
         //generate html output
         $htmlOutput = $this->bankTransactionsOutputter->toHTML($transactionDetails);
 
-        $output->writeln($htmlOutput);
+        //write the ouput to a html file
+        $fileInfo = pathinfo($input->getArgument(self::FILE_NAME));
+        $writeToFile = $this->uploadLocation . $fileInfo['filename'] . '.html';
+
+        $fp = fopen($writeToFile, 'w');
+        fwrite($fp, $htmlOutput);
+        fclose($fp);
+
+        $message = "HTML file generated and can be found at " . $writeToFile;
+        $output->writeln($message);
 
         return 0;
     }

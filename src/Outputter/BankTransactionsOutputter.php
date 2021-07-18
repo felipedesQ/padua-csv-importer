@@ -27,7 +27,13 @@ class BankTransactionsOutputter
 
     public function toHTML(array $transactionDetails) :string
     {
+        /**
         $htmlOutput = $this->twig->render('pages/bank-transactions.html.twig', [
+            'transactionDetails' => $transactionDetails
+        ]);
+        /**/
+
+        $htmlOutput = $this->twig->render('pages/bank-transactions-base.html.twig', [
             'transactionDetails' => $transactionDetails
         ]);
 
@@ -42,7 +48,7 @@ class BankTransactionsOutputter
             $transaction = [];
             $transaction[] = $bankTransactionDto->getDate()->format("d/m/Y g:i A");
             $transaction[] = $bankTransactionDto->getTransactionCode();
-            $transaction[] = 'Yes';
+            $transaction[] = $bankTransactionDto->getValidTransaction();
             $transaction[] = $bankTransactionDto->getCustomerNumber();
             $transaction[] = $bankTransactionDto->getReference();
             $transaction[] = MoneyValueObject::fromFloat($bankTransactionDto->getAmount())->toMoney();
