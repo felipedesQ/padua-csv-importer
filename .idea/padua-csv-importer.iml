@@ -5,8 +5,8 @@
       <sourceFolder url="file://$MODULE_DIR$/spec" isTestSource="true" />
       <sourceFolder url="file://$MODULE_DIR$/src" isTestSource="false" packagePrefix="Padua\CsvImporter\" />
       <sourceFolder url="file://$MODULE_DIR$/tests" isTestSource="true" />
-      <sourceFolder url="file://$MODULE_DIR$/tests/units" isTestSource="true" packagePrefix="Padua\Test\Units\CsvImporter\" />
-      <sourceFolder url="file://$MODULE_DIR$/var/cache/dev" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/tests/units" isTestSource="true" packagePrefix="Padua\ValueObject\UnitTests\" />
+      <sourceFolder url="file://$MODULE_DIR$/tests/specifications" isTestSource="true" packagePrefix="Padua\ValueObject\SpecificationsTests\" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/symfony/dotenv" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/symfony/string" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/symfony/polyfill-mbstring" />
@@ -139,6 +139,8 @@
       <excludeFolder url="file://$MODULE_DIR$/vendor/phpunit/php-timer" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/phpunit/php-code-coverage" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/phpunit/php-text-template" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/phpspec/phpspec" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/phpspec/php-diff" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />

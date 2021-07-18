@@ -44,6 +44,7 @@ class BankTransactionDto
     {
         $transactionDto = new self();
 
+        //populate dto and check if each component are of correct type
         $transactionDto->date = DateTimeValueObject::fromString($transactionData[self::DATE_KEY])->toDateTime();
         $transactionDto->transactionCode = StringValueObject::fromString($transactionData[self::TRANSACTION_CODE_KEY])->toString();
         $transactionDto->customerNumber = IntegerValueObject::fromInteger($transactionData[self::CUSTOMER_NUMBER_KEY])->toInteger();
@@ -58,6 +59,7 @@ class BankTransactionDto
      */
     public function toArray(): array
     {
+        //in array format
         return [
             'date' => $this->date,
             'transactionCode' => $this->transactionCode,

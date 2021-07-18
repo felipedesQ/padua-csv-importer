@@ -1,0 +1,8 @@
+parameters:
+  padua.logging.environment: 'test'
+  padua.caching.path: '/padua-csv_importer/var/cache/test/'
+
+services:
+  test.transaction_code_checker_service:
+    alias: Padua\CsvImporter\Service\TransactionCodeCheckerService
+    public: true

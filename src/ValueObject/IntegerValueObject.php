@@ -35,5 +35,6 @@ class IntegerValueObject
 
     protected function validate(): void
     {
+        //TODO: add integer validation
     }
 }

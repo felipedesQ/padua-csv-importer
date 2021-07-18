@@ -5,7 +5,6 @@
         "php": "^7.3",
         "ext-ctype": "*",
         "ext-iconv": "*",
-        "phpunit/phpunit": "^9.5",
         "symfony/asset": "*",
         "symfony/console": "*",
         "symfony/expression-language": "*",
@@ -25,6 +24,8 @@
         "twig/extensions": "*"
     },
     "require-dev": {
+        "phpunit/phpunit": "^9.5",
+        "phpspec/phpspec": "^7.1",
         "symfony/debug-pack": "*",
         "symfony/dotenv": "*",
         "symfony/maker-bundle": "^1.0",
@@ -46,7 +47,8 @@
     },
     "autoload-dev": {
         "psr-4": {
-            "Padua\\Test\\Units\\CsvImporter\\": "tests/units/"
+            "Padua\\ValueObject\\UnitTests\\": "tests/units/",
+            "Padua\\ValueObject\\SpecificationsTests\\": "tests/specifications/"
         }
     },
     "replace": {

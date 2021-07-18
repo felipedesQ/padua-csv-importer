@@ -30,5 +30,6 @@ class StringValueObject
 
     protected function validate(): void
     {
+        //TODO: add string validation
     }
 }

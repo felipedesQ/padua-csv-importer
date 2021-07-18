@@ -1,0 +1,7 @@
+suites:
+    padua_suite:
+        namespace: Padua\CsvImporter
+        spec_prefix: specifications
+        src_path: "%paths.config%/src"
+        spec_path: "%paths.config%/tests"
+        psr4_prefix: Padua\CsvImporter

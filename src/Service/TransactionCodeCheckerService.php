@@ -7,6 +7,9 @@ use Padua\CsvImporter\Entity\BankTransactionEntity;
 class TransactionCodeCheckerService
 {
 
+    const TRANSACTION_CODE_LENGTH = 10;
+    const TRANSACTION_KEY_CHECK = 9;
+
     /**
      * @var BankTransactionEntity
      */
@@ -26,16 +29,24 @@ class TransactionCodeCheckerService
         $this->checkCharacterService = $checkCharacterService;
     }
 
+    /**
+     * @param string $transactionCode
+     * @return bool
+     */
     public function verifyTransactionCode(string $transactionCode): bool
     {
-        if (strlen($transactionCode) != 10) {
+        //make sure transaction code is the the required length
+        if (strlen($transactionCode) != self::TRANSACTION_CODE_LENGTH) {
             return false;
         }
 
+        //format the code
         $formattedCode = $this->bankTransactionEntity->generateCheckCode($transactionCode);
-        $checkDigit = $this->checkCharacterService->generateCheckCharacter($formattedCode);
 
-        return ($transactionCode[9] == $checkDigit);
+        //generate the check character
+        $checkCharacter = $this->checkCharacterService->generateCheckCharacter($formattedCode);
+
+        return ($transactionCode[self::TRANSACTION_KEY_CHECK] == $checkCharacter);
     }
 
 

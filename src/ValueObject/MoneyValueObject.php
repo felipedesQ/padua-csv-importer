@@ -42,4 +42,9 @@ class MoneyValueObject
         $moneyFormatter = new \NumberFormatter('en_AU', \NumberFormatter::CURRENCY);
         return $moneyFormatter->formatCurrency($this->value, 'AUD');
     }
+
+    protected function validate(): void
+    {
+        //TODO: add money/currency validation
+    }
 }
