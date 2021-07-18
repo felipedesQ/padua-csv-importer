@@ -146,6 +146,7 @@
       <excludeFolder url="file://$MODULE_DIR$/var/cache/dev/ContainerZmdKV65" />
       <excludeFolder url="file://$MODULE_DIR$/var/cache/test" />
       <excludeFolder url="file://$MODULE_DIR$/var/log" />
+      <excludeFolder url="file://$MODULE_DIR$/var/upload" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
