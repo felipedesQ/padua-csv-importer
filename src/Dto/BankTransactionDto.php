@@ -40,6 +40,11 @@ class BankTransactionDto
      */
     protected $amount;
 
+    /**
+     * @var string
+     */
+    protected $validTransation;
+
     public static function decodeData(array $transactionData): self
     {
         $transactionDto = new self();
@@ -109,4 +114,19 @@ class BankTransactionDto
         return $this->amount;
     }
 
+    /**
+     * @return string
+     */
+    public function getValidTransaction(): string
+    {
+        return $this->validTransation;
+    }
+
+    /**
+     * @param string $validTransation
+     */
+    public function setValidTransation(string $validTransation): void
+    {
+        $this->validTransation = $validTransation;
+    }
 }
